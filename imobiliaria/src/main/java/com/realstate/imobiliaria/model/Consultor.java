@@ -1,6 +1,7 @@
 package com.realstate.imobiliaria.model;
 
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 public class Consultor { 
@@ -12,6 +13,9 @@ public class Consultor {
     private String nome;
     private String setor; 
     private String telefone;
+
+    @OneToMany(mappedBy = "consultor", cascade = CascadeType.ALL)
+    private List<Imovel> imoveis;
 
     public Long getId() {
         return id; 
@@ -44,5 +48,14 @@ public class Consultor {
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
+
+    public List<Imovel> getImoveis() {
+        return imoveis;
+    }
+
+    public void setImoveis(List<Imovel> imoveis) {
+        this.imoveis = imoveis;
+    }
 }
+
 
