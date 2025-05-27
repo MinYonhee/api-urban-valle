@@ -1,11 +1,14 @@
 package com.realstate.imobiliaria.model;
+
 import org.hibernate.annotations.CreationTimestamp;
 import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "imoveis")
 public class Imovel {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,8 +18,8 @@ public class Imovel {
     private Double preco;
     private String endereco;
     private String tipo;
-    private Integer quartos;
-    private Integer banheiros;
+    private Short quartos;
+    private Short banheiros;
     private Double area;
     private String status;
     private String imagemUrl;
@@ -26,7 +29,14 @@ public class Imovel {
     @CreationTimestamp
     private LocalDate dataCadastro;
 
-    public Imovel(){}
+    // ✅ Relacionamento com Consultor
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "consultor_id")
+    private Consultor consultor;
+
+    public Imovel() {}
+
+    // Getters e Setters
 
     public Long getId() {
         return id;
@@ -76,19 +86,19 @@ public class Imovel {
         this.tipo = tipo;
     }
 
-    public Integer getQuartos() {
+    public Short getQuartos() {
         return quartos;
     }
 
-    public void setQuartos(Integer quartos) {
+    public void setQuartos(Short quartos) {
         this.quartos = quartos;
     }
 
-    public Integer getBanheiros() {
+    public Short getBanheiros() {
         return banheiros;
     }
 
-    public void setBanheiros(Integer banheiros) {
+    public void setBanheiros(Short banheiros) {
         this.banheiros = banheiros;
     }
 
@@ -128,11 +138,11 @@ public class Imovel {
         return dataCadastro;
     }
 
-    //Relacionamento com Consultor (opcional agora, pode comentar se ainda não tem a classe)
-    //@ManyToOne
-    //@JoinColumn(name = "consultor_id")
-    //private Consultor consultor;
+    public Consultor getConsultor() {
+        return consultor;
+    }
 
-    //public Consultor getConsultor() { return consultor; }
-   // public void setConsultor(Consultor consultor) { this.consultor = consultor; }
+    public void setConsultor(Consultor consultor) {
+        this.consultor = consultor;
+    }
 }
