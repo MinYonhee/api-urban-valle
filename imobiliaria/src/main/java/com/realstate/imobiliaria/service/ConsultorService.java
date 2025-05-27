@@ -6,7 +6,7 @@ import com.realstate.imobiliaria.repository.ConsultorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List; 
+import java.util.List;
 
 @Service
 public class ConsultorService {
@@ -28,17 +28,19 @@ public class ConsultorService {
     }
 
     public Consultor atualizar(Long id, Consultor novoConsultor) {
-        return consultorRepository.findById(id).map(consultor -> { 
-            consultor.setNome(novoConsultor.getNome()); 
-            consultor.setSetor(novoConsultor.getSetor()); 
-            consultor.setTelefone(novoConsultor.getTelefone()); 
+        return consultorRepository.findById(id).map(consultor -> {
+            consultor.setNome(novoConsultor.getNome());
+            consultor.setEmail(novoConsultor.getEmail());
+            consultor.setTelefone(novoConsultor.getTelefone());
             return consultorRepository.save(consultor);
         }).orElseThrow(() -> new ResourceNotFoundException("Consultor com ID " + id + " não encontrado"));
     }
 
     public void deletar(Long id) {
-        Consultor consultor = buscarPorId(id); 
-        consultorRepository.delete(consultor);
+        if (!consultorRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Consultor com ID " + id + " não encontrado");
+        }
+        consultorRepository.deleteById(id);
     }
 }
 
