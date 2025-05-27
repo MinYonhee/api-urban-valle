@@ -4,25 +4,28 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-public class Consultor { 
+@Table(name = "consultores")
+public class Consultor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String nome;
-    private String setor; 
+
+    @Column(nullable = false, unique = true)
+    private String email;
+
     private String telefone;
 
-    @OneToMany(mappedBy = "consultor", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "consultor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Imovel> imoveis;
 
-    public Long getId() {
-        return id; 
-    }
+    public Consultor() {}
 
-    public void setId(Long id) {
-        this.id = id;
+    public Long getId() {
+        return id;
     }
 
     public String getNome() {
@@ -33,12 +36,12 @@ public class Consultor {
         this.nome = nome;
     }
 
-    public String getSetor() {
-        return setor;
+    public String getEmail() {
+        return email;
     }
 
-    public void setSetor(String setor) {
-        this.setor = setor;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getTelefone() {
