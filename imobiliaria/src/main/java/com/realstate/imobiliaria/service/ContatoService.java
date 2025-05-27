@@ -2,10 +2,10 @@ package com.realstate.imobiliaria.service;
 
 import com.realstate.imobiliaria.exception.ResourceNotFoundException;
 import com.realstate.imobiliaria.model.Contato;
+import com.realstate.imobiliaria.repository.ContatoRepository;
+import com.realstate.imobiliaria.repository.ConsultorRepository;
 import com.realstate.imobiliaria.repository.ImovelRepository;
 import com.realstate.imobiliaria.repository.UsuarioRepository;
-import com.realstate.imobiliaria.repository.ConsultorRepository;
-import com.realstate.imobiliaria.repository.ContatoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,9 +32,6 @@ public class ContatoService {
     }
 
     public Contato salvar(Contato contato) {
-        if (contato.getEmail() == null || contato.getEmail().isEmpty()) {
-            throw new IllegalArgumentException("Email é obrigatório");
-        }
         if (contato.getUsuario() != null && !usuarioRepository.existsById(contato.getUsuario().getId())) {
             throw new IllegalArgumentException("Usuário não encontrado");
         }
@@ -62,9 +59,6 @@ public class ContatoService {
 
     public Contato atualizar(Long id, Contato contatoAtualizado) {
         return contatoRepository.findById(id).map(contato -> {
-            if (contatoAtualizado.getEmail() == null || contatoAtualizado.getEmail().isEmpty()) {
-                throw new IllegalArgumentException("Email é obrigatório");
-            }
             if (contatoAtualizado.getUsuario() != null &&
                     !usuarioRepository.existsById(contatoAtualizado.getUsuario().getId())) {
                 throw new IllegalArgumentException("Usuário não encontrado");
