@@ -48,7 +48,6 @@ public class ConsultorService {
         Consultor consultorExistente = consultorRepository.findById(id)
                 .orElseThrow(() -> new ConsultorNotFoundException(id));
         validarConsultor(novoConsultor);
-        // Verifica e-mail duplicado, ignorando o próprio consultor
         if (novoConsultor.getEmail() != null &&
                 !novoConsultor.getEmail().equals(consultorExistente.getEmail()) &&
                 consultorRepository.findByEmail(novoConsultor.getEmail()).isPresent()) {
@@ -140,7 +139,7 @@ public class ConsultorService {
         if (consultor.getNome() == null || consultor.getNome().trim().isEmpty()) {
             throw new ConsultorValidationException("Nome é obrigatório.");
         }
-        if (!consultor.getNome().matches("^[A-Za-zÀ-ÿ\\s]+$")) { // Reforça validação no service
+        if (!consultor.getNome().matches("^[A-Za-zÀ-ÿ\\s]+$")) {
             throw new ConsultorValidationException("Nome não pode conter números.");
         }
         if (consultor.getEmail() == null || consultor.getEmail().trim().isEmpty()) {
